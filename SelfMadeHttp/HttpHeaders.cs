@@ -30,8 +30,8 @@ public class HttpHeaders : Dictionary<string, string>
         return headers;
     }
 
-    internal void WriteTo(NetworkStream httpStream)
+    internal void WriteTo(Stream httpStream)
     {
-        httpStream.Write(Encoding.ASCII.GetBytes(this.ToString()));
+        httpStream.Write(Encoding.ASCII.GetBytes(this.ToString() + "\r\n"));
     }
 }

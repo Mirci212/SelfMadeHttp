@@ -16,7 +16,7 @@ Console.WriteLine($"❤  {(char)83}elf-Made HTTP client client ❤");
 // HttpGet(host: "www.oefb.at", port: 443, ssl: true, path: "/oefb2/images/1278650591628556536_215ee0a99f28ed3579d8-1,0-320x320.png");
 Send(host: "localhost", port: 80, ssl: false, HttpRequest.Get(path: "/"));
 Send(host: "localhost", port: 80, ssl: false, HttpRequest.Get(path: "/weather"));
-Send(host: "localhost", port: 80, ssl: false, HttpRequest.Post(path: "/news"));
+Send(host: "localhost", port: 80, ssl: false, request: HttpRequest.Post(path: "/news", contentType: "text/plain",Encoding.UTF8, "15° ⛅"));
 
 void Send(string host, int port, bool ssl, HttpRequest request)
 {
