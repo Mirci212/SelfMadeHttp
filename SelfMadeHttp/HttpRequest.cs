@@ -1,4 +1,6 @@
 ﻿using Htlvb.Http;
+using System.Net.Security;
+using System.Net.Sockets;
 using System.Text;
 
 namespace SelfMadeHttp;
@@ -21,6 +23,16 @@ public class HttpRequest(string methode, string path, string version, HttpHeader
             }
             return Encoding.GetEncoding(contentType.Split("charset=", StringSplitOptions.TrimEntries)[1]);
         }
+    }
+
+    public static HttpRequest Get(string path)
+    {
+        return new HttpRequest("GET", path, "HTTP/1.1",new(), []);
+    }
+
+    public static HttpRequest Post(string path)
+    {
+        return new HttpRequest("POST", path, "HTTP/1.1", new(), []);
     }
 
     // ReadFromStream
@@ -55,5 +67,13 @@ public class HttpRequest(string methode, string path, string version, HttpHeader
             ? $"{Body.Length} bytes"
             : BodyEncoding.GetString(Body);
         return $"{Methode} {Path} {Version}{Environment.NewLine}{Headers.ToString()}{Environment.NewLine}{Environment.NewLine}{body}";
+    }
+
+    public void WriteTo(Stream stream)
+    {
+        using StreamWriter httpwriter = new StreamWriter(stream, leaveOpen: true);
+        httpwriter.WriteLine($"{Methode} {path} HTTP/1.1");
+        httpwriter.WriteLine($"Host: {Headers["Host"]}");
+        httpwriter.WriteLine();
     }
 }
