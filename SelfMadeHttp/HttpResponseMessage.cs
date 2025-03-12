@@ -63,7 +63,6 @@ public class HttpResponseMessage(string version, int statusCode, string statusTe
         httpStream.Write(Encoding.ASCII.GetBytes($"{Version} {StatusCode} {StatusText}\r\n"));
         Headers.WriteTo(httpStream);
         httpStream.Write(Encoding.ASCII.GetBytes("\r\n"));
-        httpStream.Write(Encoding.ASCII.GetBytes("\r\n"));
         httpStream.Write(Body);
         httpStream.Flush();
     }

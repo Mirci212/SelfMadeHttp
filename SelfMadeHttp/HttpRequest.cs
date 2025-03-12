@@ -62,9 +62,10 @@ public class HttpRequest(string methode, string path, string version, HttpHeader
 
     private static (string methode, string path, string version) ReadStartLine(HttpStreamReader httpReader)
     {
+        string[] parts = null;
         string line = httpReader.ReadLine();
-
-        string[] parts = line.Split(' ', 3);
+        if(line == null) throw new ArgumentOutOfRangeException("The startline wasn't in the correct format! (line was null)");
+        try {parts = line.Split(' ', 3); } catch (Exception ex) { throw new ArgumentOutOfRangeException($"The startline wasn't in the correct format! \"{line}\"", ex); }
         if (parts.Length != 3) throw new ArgumentOutOfRangeException($"The startline wasn't in the correct format! \"{line}\"");
 
         return (parts[0], parts[1], parts[2]);
